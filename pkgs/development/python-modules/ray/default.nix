@@ -64,7 +64,7 @@
 
 let
   pname = "ray";
-  version = "2.49.2";
+  version = "2.51.1";
 in
 buildPythonPackage rec {
   inherit pname version;
@@ -78,35 +78,28 @@ buildPythonPackage rec {
       platforms = {
         aarch64-darwin = "macosx_12_0_arm64";
         aarch64-linux = "manylinux2014_aarch64";
-        x86_64-darwin = "macosx_12_0_x86_64";
         x86_64-linux = "manylinux2014_x86_64";
       };
       # ./pkgs/development/python-modules/ray/prefetch.sh
       # Results are in ./ray-hashes.nix
       hashes = {
         x86_64-linux = {
-          cp310 = "sha256-dFZodq979OSOpLmzt1s02wU9EGTMTUsWcNxM549olK8=";
-          cp311 = "sha256-VAd93jOMX/ujSaSrYbcjUqPDvmnqW08bQ22Y1AsxJ2M=";
-          cp312 = "sha256-LsqqUfWIzN2ithVjqL44Q79l36qoOiQFiKMH9Ou4JHE=";
-          cp313 = "sha256-t9ghTP+G3wRP7HJ+7qvMw7/JsCcdKNYbqSwJ8NEn0B0=";
+          cp310 = "sha256-iiH1kUuqPe78tPpfOHjgO1icGQuGT+G4Dm3Ay/uiYAQ=";
+          cp311 = "sha256-3TUwENJUi8NF5GxFeV9wKRu0YMI2qmozk7UanNhhtW8=";
+          cp312 = "sha256-Tnhtp4Ys9zZkl30CEqUF1tWlhb6t9j59weHBKSWb7iA=";
+          cp313 = "sha256-Jl7Nb9bUppWwnGhuF9WPygwJ5xmMBzYornv0l0sD6co=";
         };
         aarch64-linux = {
-          cp310 = "sha256-6uB7P+1F9bBBqL+Xlc0m+tJGS+USbv1EfkSEkFoptnc=";
-          cp311 = "sha256-6tqd2JzNpkOjxsLLpwFrWYmEMtEm4Qs4/tUtdBZTZPQ=";
-          cp312 = "sha256-3Q2NhkHRQvr+bYPofTwZvVY30h40YI0/9prXHqPi9GI=";
-          cp313 = "sha256-tMeGlojFGOkC97Yojt7CNlq00opGQpHm0KcEDH0Btfc=";
-        };
-        x86_64-darwin = {
-          cp310 = "sha256-PkQb8qzX82jPRRMnUgZsXDuD2IzV+Fdi5wN3S7pPK20=";
-          cp311 = "sha256-ns6VehOYX3u/QHf0/wIEMU1+malB+V3/Kha0U9U3bcM=";
-          cp312 = "sha256-Z4TgduRBgiLvjuO2qL/rhn2Hl4A7Jbz8zjvzvFQUvvE=";
-          cp313 = "sha256-svTw/tk2+vaI6H/9zJNWwDRRPAAlmi8ahYnjRfz728A=";
+          cp310 = "sha256-Nv61GfMcUtO0281o/7K6+TGVzuwG6nEeIVWQlrq5X+0=";
+          cp311 = "sha256-0tfIr0VEH/ULwAI1LTHgr+xchd1Qdb9ScCcXiTFJe84=";
+          cp312 = "sha256-C+2UCHErrRUR5laDpFUwL4jZTl5ctqWMxKFUth2KC0o=";
+          cp313 = "sha256-PyvSrPm39HOMF9CFksqq0m6vt6T8OArZq0LV8KePc60=";
         };
         aarch64-darwin = {
-          cp310 = "sha256-CL7EZ1drwDDYvQY4AE4bjgdViJKTSREpiKS9SShoTow=";
-          cp311 = "sha256-T7n5v2L9XJLSLaIM0qrLSt4fsjAzdl+pJ08KDFC8QvY=";
-          cp312 = "sha256-1tYS3lxjQbd2/HXt7uW2mLtK9+6Eov8wVSsyqebkp3I=";
-          cp313 = "sha256-Li/iD6kFYuc2MNqf95MtPtZQfnMpHE2b31ZlN66d7d8=";
+          cp310 = "sha256-6M4hjIXp9AQ8NxNvyQtBNDvbhE/NyVIPIcAA0djUn4k=";
+          cp311 = "sha256-vYIR/AM74bzpwDnkdOl6kHe+WTAgl4/c+6HXcL3EC6U=";
+          cp312 = "sha256-74R7AlynWLruRXGhygAdlziXytdy+OldfzA9JMOLZJ4=";
+          cp313 = "sha256-2BVHiGQ1FC29eb/x1OTt9Xil8g47EbvUztSc+vvTfSc=";
         };
       };
     in
@@ -214,6 +207,10 @@ buildPythonPackage rec {
       pyarrow
       requests
       tensorboardx
+
+      # `import ray.tune` fails without pydantic
+      # Reported upstream: https://github.com/ray-project/ray/issues/58280
+      pydantic
     ];
   });
 
@@ -233,7 +230,6 @@ buildPythonPackage rec {
     platforms = [
       "aarch64-darwin"
       "aarch64-linux"
-      "x86_64-darwin"
       "x86_64-linux"
     ];
   };

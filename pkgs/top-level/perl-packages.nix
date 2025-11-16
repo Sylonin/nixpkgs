@@ -2945,10 +2945,10 @@ with self;
 
   CacheFastMmap = buildPerlPackage {
     pname = "Cache-FastMmap";
-    version = "1.57";
+    version = "1.60";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/R/RO/ROBM/Cache-FastMmap-1.57.tar.gz";
-      hash = "sha256-4Es6KNmJ7bj7lur6zcK4f57MuE8EfrLifLJqp9CMx7g=";
+      url = "mirror://cpan/authors/id/R/RO/ROBM/Cache-FastMmap-1.60.tar.gz";
+      hash = "sha256-my07Cu8JXSxZs1akSClQ0MOiLoTm5puXu5bcwe3GQv8=";
     };
     buildInputs = [ TestDeep ];
     meta = {
@@ -12322,11 +12322,11 @@ with self;
       hash = "sha256-VaUsIz4troYRP58Zs09hftz8hBb5vs5nEme9GBGxIRE=";
     };
     outputs = [ "out" ];
-    meta = with lib; {
+    meta = {
       description = "Simplified safe evaluation of Perl code";
       homepage = "https://github.com/mkende/perl-eval-safe";
-      license = licenses.mit;
-      maintainers = with maintainers; [ figsoda ];
+      license = lib.licenses.mit;
+      maintainers = [ ];
     };
   };
 
@@ -14233,10 +14233,10 @@ with self;
 
   FinanceQuote = buildPerlPackage rec {
     pname = "Finance-Quote";
-    version = "1.66";
+    version = "1.67";
     src = fetchurl {
       url = "mirror://cpan/authors/id/B/BP/BPSCHUCK/Finance-Quote-${version}.tar.gz";
-      hash = "sha256-GOkdcI+Ah6JvvL+zsKYe0UcdKks855jecwTzBIGkZ+k=";
+      hash = "sha256-uqip/AS5o4+nh77gAWvNTMMwHMmi8KbDeBGaNdre6zA=";
     };
     buildInputs = [
       DateManip
@@ -19754,14 +19754,32 @@ with self;
 
   MCE = buildPerlPackage {
     pname = "MCE";
-    version = "1.889";
+    version = "1.901";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/M/MA/MARIOROY/MCE-1.889.tar.gz";
-      hash = "sha256-22FT5HTQRvwlMFC/U8VAAthM1Mp30hwrnfVv7rgJu+0=";
+      url = "mirror://cpan/authors/id/M/MA/MARIOROY/MCE-1.901.tar.gz";
+      hash = "sha256-3RRrHpmFPjPBzbtowgJK7nQGeseDlNUbgdH6so9Q0TU=";
     };
     meta = {
       description = "Many-Core Engine for Perl providing parallel processing capabilities";
       homepage = "https://github.com/marioroy/mce-perl";
+      license = with lib.licenses; [
+        artistic1
+        gpl1Plus
+      ];
+    };
+  };
+
+  MCEShared = buildPerlPackage {
+    pname = "MCE-Shared";
+    version = "1.893";
+    src = fetchurl {
+      url = "mirror://cpan/authors/id/M/MA/MARIOROY/MCE-Shared-1.893.tar.gz";
+      hash = "sha256-+kxIet+w2zyPK2qidNM9j4J/ojTGMbs689lPpKPJRi8=";
+    };
+    propagatedBuildInputs = [ MCE ];
+    meta = {
+      description = "MCE extension for sharing data supporting threads and processes";
+      homepage = "https://github.com/marioroy/mce-shared";
       license = with lib.licenses; [
         artistic1
         gpl1Plus
@@ -24752,14 +24770,14 @@ with self;
       TestPod
       TestPodCoverage
     ];
-    meta = with lib; {
+    meta = {
       description = "Perl bindings to the msgpack C library";
       homepage = "https://github.com/jacquesg/p5-MsgPack-Raw";
-      license = with licenses; [
+      license = with lib.licenses; [
         gpl1Plus # or
         artistic1
       ];
-      maintainers = with maintainers; [ figsoda ];
+      maintainers = [ ];
     };
   };
 
@@ -24909,14 +24927,14 @@ with self;
     ];
     # TODO: fix tests
     doCheck = false;
-    meta = with lib; {
+    meta = {
       description = "Perl bindings for Neovim";
       homepage = "https://github.com/jacquesg/p5-Neovim-Ext";
-      license = with licenses; [
+      license = with lib.licenses; [
         gpl1Plus # or
         artistic1
       ];
-      maintainers = with maintainers; [ figsoda ];
+      maintainers = [ ];
     };
   };
 
@@ -33275,12 +33293,12 @@ with self;
     };
   };
 
-  Test2Harness = buildPerlPackage {
+  Test2Harness = buildPerlPackage rec {
     pname = "Test2-Harness";
-    version = "1.000155";
+    version = "1.000161";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/E/EX/EXODIST/Test2-Harness-1.000155.tar.gz";
-      hash = "sha256-Hvi/euDKALaHu24RXzq4yVBI5ICsmuUylzabxpSkc4s=";
+      url = "mirror://cpan/authors/id/E/EX/EXODIST/Test2-Harness-${version}.tar.gz";
+      hash = "sha256-SXO3mx7tUwVxXuc9itySNtp5XH1AkNg7FQ6hMc1ltBQ=";
     };
 
     checkPhase = ''
@@ -33306,6 +33324,7 @@ with self;
       gotofile
     ];
     meta = {
+      changelog = "https://github.com/Test-More/Test2-Harness/blob/v${version}/Changes";
       description = "New and improved test harness with better Test2 integration";
       license = with lib.licenses; [
         artistic1
@@ -38834,7 +38853,7 @@ with self;
     ];
     postPatch = ''
       substituteInPlace Makefile.PL \
-        --replace-fail "\$(PERL)" "${lib.getExe buildPackages.perl}"
+        --replace-fail "\$(PERL)" "${lib.getExe perl.perlOnBuild}"
     '';
     meta = {
       description = "Simple API for XML";

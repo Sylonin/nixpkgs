@@ -19,19 +19,23 @@ python3Packages.buildPythonApplication rec {
   # The websites yt-dlp deals with are a very moving target. That means that
   # downloads break constantly. Because of that, updates should always be backported
   # to the latest stable release.
-  version = "2025.09.26";
+  version = "2025.10.22";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "yt-dlp";
     repo = "yt-dlp";
     tag = version;
-    hash = "sha256-/uzs87Vw+aDNfIJVLOx3C8RyZvWLqjggmnjrOvUX1Eg=";
+    hash = "sha256-jQaENEflaF9HzY/EiMXIHgUehAJ3nnDT9IbaN6bDcac=";
   };
 
   postPatch = ''
     substituteInPlace yt_dlp/version.py \
       --replace-fail "UPDATE_HINT = None" 'UPDATE_HINT = "Nixpkgs/NixOS likely already contain an updated version.\n       To get it run nix-channel --update or nix flake update in your config directory."'
+    # Until yt-dlp supports curl-cffi 0.14.x, this patch is needed:
+    substituteInPlace yt_dlp/networking/_curlcffi.py \
+      --replace-fail "if curl_cffi_version != (0, 5, 10) and not (0, 10) <= curl_cffi_version < (0, 14)" \
+      "if curl_cffi_version != (0, 5, 10) and not (0, 10) <= curl_cffi_version"
   '';
 
   build-system = with python3Packages; [ hatchling ];
@@ -94,8 +98,14 @@ python3Packages.buildPythonApplication rec {
       ''--prefix PATH : "${lib.makeBinPath packagesToBinPath}"''
     ];
 
-  # Requires network
-  doCheck = false;
+  checkPhase = ''
+    # Check for "unsupported" string in yt-dlp -v output.
+    output=$($out/bin/yt-dlp -v 2>&1 || true)
+    if echo $output | grep -q "unsupported"; then
+      echo "ERROR: Found \"unsupported\" string in yt-dlp -v output."
+      exit 1
+    fi
+  '';
 
   postInstall = ''
     installManPage yt-dlp.1

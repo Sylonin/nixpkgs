@@ -6,16 +6,16 @@
 
 buildNpmPackage rec {
   pname = "material-you-utilities";
-  version = "2.0.14";
+  version = "2.0.22";
 
   src = fetchFromGitHub {
     owner = "Nerwyn";
     repo = "material-you-utilities";
     tag = version;
-    hash = "sha256-C2qNXQ/21zyXURjZuId+ANkhvjUCxqfATSW4hvU/9D4=";
+    hash = "sha256-wsNAW+0px4WhaMGSE4T0k5R4E+7c594AiwKYU+5V7rw=";
   };
 
-  npmDepsHash = "sha256-W9fKtN+Ux3Lzk4KtRPYM6B+1o8OtZ8ERkqdlT/PkXqA=";
+  npmDepsHash = "sha256-Gnr5C2VsGUtcfsRo0w8TB/NUxCK5Y20qfvYSBzL4UQ8=";
 
   postPatch = ''
     # Remove git dependency from rspack config

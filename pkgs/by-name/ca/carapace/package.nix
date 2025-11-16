@@ -9,16 +9,16 @@
 
 buildGoModule (finalAttrs: {
   pname = "carapace";
-  version = "1.5.0";
+  version = "1.5.4";
 
   src = fetchFromGitHub {
     owner = "carapace-sh";
     repo = "carapace-bin";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-BMj0bjoqUIT4zVs6CRqeBqfSQ17NNyeE+AAtTTnv4bo=";
+    hash = "sha256-QTY2GH2aKTMowNXVVNUDJdHAFVhCPFBh2p+Mgon88EI=";
   };
 
-  vendorHash = "sha256-UOqHQPF+5luabuLM95+VR+tsb1+3+MUpaJmjbZqCNvs=";
+  vendorHash = "sha256-Lswmq4j4nz7k+CRpyZhAubEZD59lNKpT/w3mQ4JlMys=";
 
   ldflags = [
     "-s"

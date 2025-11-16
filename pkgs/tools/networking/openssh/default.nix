@@ -8,28 +8,17 @@
 let
   common = opts: callPackage (import ./common.nix opts) { };
 
-  # Gets the correct OpenSSH URL for a given version.
-  urlFor =
-    version:
-    let
-      urlVersion =
-        {
-          # 10.0p1 was accidentally released as 10.0p2:
-          # https://www.openwall.com/lists/oss-security/2025/04/09/6
-          "10.0p2" = "10.0p1";
-        }
-        .${version} or version;
-    in
-    "mirror://openbsd/OpenSSH/portable/openssh-${urlVersion}.tar.gz";
+  # Gets the OpenSSH mirror URL.
+  urlFor = version: "mirror://openbsd/OpenSSH/portable/openssh-${version}.tar.gz";
 in
 {
   openssh = common rec {
     pname = "openssh";
-    version = "10.0p2";
+    version = "10.2p1";
 
     src = fetchurl {
       url = urlFor version;
-      hash = "sha256-AhoucJoO30JQsSVr1anlAEEakN3avqgw7VnO+Q652Fw=";
+      hash = "sha256-zMQsBBmTeVkmP6Hb0W2vwYxWuYTANWLSk3zlamD3mLI=";
     };
 
     extraPatches = [
@@ -50,12 +39,12 @@ in
 
   openssh_hpn = common rec {
     pname = "openssh-with-hpn";
-    version = "10.1p1";
+    version = "10.2p1";
     extraDesc = " with high performance networking patches";
 
     src = fetchurl {
       url = urlFor version;
-      hash = "sha256-ufx6K4JXlGem8vQ+SoHI4d/aYU3bT5slWq/XAgu/B1g=";
+      hash = "sha256-zMQsBBmTeVkmP6Hb0W2vwYxWuYTANWLSk3zlamD3mLI=";
     };
 
     extraPatches =
@@ -93,12 +82,12 @@ in
 
   openssh_gssapi = common rec {
     pname = "openssh-with-gssapi";
-    version = "10.1p1";
+    version = "10.2p1";
     extraDesc = " with GSSAPI support";
 
     src = fetchurl {
       url = urlFor version;
-      hash = "sha256-ufx6K4JXlGem8vQ+SoHI4d/aYU3bT5slWq/XAgu/B1g=";
+      hash = "sha256-zMQsBBmTeVkmP6Hb0W2vwYxWuYTANWLSk3zlamD3mLI=";
     };
 
     extraPatches = [

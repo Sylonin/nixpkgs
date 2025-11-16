@@ -29,19 +29,18 @@
   wrapGAppsHook3,
   cacert,
   darwin,
-  apple-sdk_12,
   desktopToDarwinBundle,
 }:
 
 stdenv.mkDerivation (finalAttrs: {
   pname = "xemu";
-  version = "0.8.106";
+  version = "0.8.113";
 
   src = fetchFromGitHub {
     owner = "xemu-project";
     repo = "xemu";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-QlhK86yj0ZvhbXfZyoHkpgxC9rZx/XRZ1LdFNFH1LMk=";
+    hash = "sha256-6qUCzgH8WBL0BGIxgK0W3tQA68/rVznb7VRjqOH2Hp0=";
 
     nativeBuildInputs = [
       git
@@ -98,9 +97,6 @@ stdenv.mkDerivation (finalAttrs: {
     libdrm
     libgbm
     vte
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isDarwin [
-    apple-sdk_12
   ];
 
   configureFlags = [

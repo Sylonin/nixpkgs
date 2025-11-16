@@ -3,7 +3,6 @@
   stdenv,
   airspy,
   airspyhf,
-  apple-sdk_12,
   aptdec,
   boost,
   cm256cc,
@@ -102,7 +101,6 @@ stdenv.mkDerivation (finalAttrs: {
     zlib
   ]
   ++ lib.optionals stdenv.hostPlatform.isLinux [ qt6Packages.qtwayland ]
-  ++ lib.optionals stdenv.hostPlatform.isDarwin [ apple-sdk_12 ]
   ++ lib.optionals withSDRplay [ sdrplay ];
 
   cmakeFlags = [
@@ -122,6 +120,7 @@ stdenv.mkDerivation (finalAttrs: {
       SDRangel is an Open Source Qt6 / OpenGL 3.0+ SDR and signal analyzer frontend to various hardware.
     '';
     maintainers = with lib.maintainers; [
+      aciceri
       alkeryn
       Tungsten842
     ];

@@ -9,7 +9,7 @@
   gettext,
   fuse,
   openssl,
-  tinyxml2,
+  tinyxml-2,
   gtest,
 }:
 
@@ -36,7 +36,7 @@ stdenv.mkDerivation rec {
   buildInputs = [
     fuse
     openssl
-    tinyxml2
+    tinyxml-2
     gtest
   ];
   nativeBuildInputs = [
@@ -67,5 +67,7 @@ stdenv.mkDerivation rec {
       lgpl3Plus
     ];
     platforms = platforms.unix;
+    # The last successful Darwin Hydra build was in 2024
+    broken = stdenv.hostPlatform.isDarwin;
   };
 }
