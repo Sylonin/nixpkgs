@@ -3,6 +3,7 @@
   buildPythonPackage,
   pythonOlder,
   fetchFromGitHub,
+  fetchpatch,
   setuptools,
   python-dateutil,
   pytz,
@@ -35,6 +36,14 @@ buildPythonPackage rec {
     hash = "sha256-cUbY6c0JFzs1oZJOTnMXz3uCah2f50g8/3uWQXtwiGY=";
   };
 
+  patches = [
+    (fetchpatch {
+      # https://github.com/scrapinghub/dateparser/pull/1294
+      url = "https://github.com/scrapinghub/dateparser/commit/6b23348b9367d43bebc9a40b00dda3363eb2acd5.patch";
+      hash = "sha256-LriRbGdYxF51Nwrm7Dp4kivyMikzmhytNQo0txMGsVI=";
+    })
+  ];
+
   nativeBuildInputs = [ setuptools ];
 
   propagatedBuildInputs = [
@@ -61,7 +70,7 @@ buildPythonPackage rec {
     requests
     ruamel-yaml
   ]
-  ++ lib.flatten (lib.attrValues optional-dependencies);
+  ++ lib.concatAttrValues optional-dependencies;
 
   preCheck = ''
     export HOME="$TEMPDIR"
@@ -82,12 +91,12 @@ buildPythonPackage rec {
 
   pythonImportsCheck = [ "dateparser" ];
 
-  meta = with lib; {
+  meta = {
     changelog = "https://github.com/scrapinghub/dateparser/blob/${src.tag}/HISTORY.rst";
     description = "Date parsing library designed to parse dates from HTML pages";
     homepage = "https://github.com/scrapinghub/dateparser";
-    license = licenses.bsd3;
+    license = lib.licenses.bsd3;
     mainProgram = "dateparser-download";
-    maintainers = with maintainers; [ dotlambda ];
+    maintainers = with lib.maintainers; [ dotlambda ];
   };
 }

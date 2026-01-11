@@ -12,16 +12,16 @@
   pynacl,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "hikari-crescent";
-  version = "1.3.0";
+  version = "1.4.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "hikari-crescent";
     repo = "hikari-crescent";
-    tag = "v${version}";
-    hash = "sha256-wFWltwhayvv/zkIWMGogjTqy/qZfO1hUU6CzF3T9E1Y=";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-86NCAlN5/JGrxPVIMs6ARr6H4G3shPcgxASwukptyJo=";
   };
 
   build-system = [ poetry-core ];
@@ -50,4 +50,4 @@ buildPythonPackage rec {
     maintainers = with lib.maintainers; [ sigmanificient ];
     mainProgram = "hikari-crescent";
   };
-}
+})

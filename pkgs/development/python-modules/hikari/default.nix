@@ -6,6 +6,7 @@
   pythonOlder,
   hatchling,
   aiohttp,
+  async-timeout,
   attrs,
   multidict,
   colorlog,
@@ -15,7 +16,7 @@
   pytest-asyncio,
   mock,
 }:
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "hikari";
   version = "2.4.1";
   pyproject = true;
@@ -23,7 +24,7 @@ buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "hikari-py";
     repo = "hikari";
-    tag = version;
+    tag = finalAttrs.version;
     hash = "sha256-lkJICN5uXFIKUZwxZI82FSYZLWFa7Cb6tDs6wV9DsY0=";
     # The git commit is part of the `hikari.__git_sha1__` original output;
     # leave that output the same in nixpkgs. Use the `.git` directory
@@ -58,6 +59,7 @@ buildPythonPackage rec {
     pytest-cov-stub
     pytest-randomly
     mock
+    async-timeout
   ];
 
   pythonImportsCheck = [ "hikari" ];
@@ -75,11 +77,11 @@ buildPythonPackage rec {
   meta = {
     description = "Discord API wrapper for Python written with asyncio";
     homepage = "https://www.hikari-py.dev/";
-    changelog = "https://github.com/hikari-py/hikari/releases/tag/${src.tag}";
+    changelog = "https://github.com/hikari-py/hikari/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.mit;
     maintainers = with lib.maintainers; [
       tomodachi94
       sigmanificient
     ];
   };
-}
+})

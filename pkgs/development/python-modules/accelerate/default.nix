@@ -33,14 +33,14 @@
 
 buildPythonPackage rec {
   pname = "accelerate";
-  version = "1.11.0";
+  version = "1.12.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "huggingface";
     repo = "accelerate";
     tag = "v${version}";
-    hash = "sha256-RdqApMgf5EoiFjNAUhVNS3xaqszl2myMF9B5HJBfHOA=";
+    hash = "sha256-PwwaQSLOm+8Hd3trM1P+jRhYyoWM3QxOe5XT99haEmg=";
   };
 
   buildInputs = [ llvmPackages.openmp ];
@@ -155,11 +155,22 @@ buildPythonPackage rec {
     # Fails with `sandbox=false` by mis-configuring the model it's using.
     # AttributeError: 'DistributedDataParallel' object has no attribute '_ignored_modules'. Did you mean: 'named_modules'?
     "test_ignored_modules_regex"
+
+    # Illegal instruction (x86_64) / Trace/BPT Error 5 (aarch64)
+    "test_can_pickle_dataloader"
   ]
   ++ lib.optionals (stdenv.hostPlatform.isDarwin && stdenv.hostPlatform.isx86_64) [
     # RuntimeError: torch_shm_manager: execl failed: Permission denied
     "CheckpointTest"
-  ];
+  ]
+  ++
+    lib.optionals
+      (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isx86_64 && (pythonAtLeast "3.14"))
+      [
+        # https://github.com/huggingface/accelerate/issues/3899
+        "test_accelerate_test"
+        "test_cpu"
+      ];
 
   disabledTestPaths = lib.optionals (!(stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isx86_64)) [
     # numerous instances of torch.multiprocessing.spawn.ProcessRaisedException:

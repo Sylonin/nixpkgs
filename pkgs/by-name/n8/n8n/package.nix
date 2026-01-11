@@ -5,6 +5,8 @@
   fetchFromGitHub,
   nodejs,
   pnpm_10,
+  fetchPnpmDeps,
+  pnpmConfigHook,
   python3,
   node-gyp,
   cctools,
@@ -14,26 +16,27 @@
   libpq,
   makeWrapper,
 }:
-
 stdenv.mkDerivation (finalAttrs: {
   pname = "n8n";
-  version = "1.118.2";
+  version = "2.3.0";
 
   src = fetchFromGitHub {
     owner = "n8n-io";
     repo = "n8n";
     tag = "n8n@${finalAttrs.version}";
-    hash = "sha256-2mcQ2hMYGydqpP4hqppqdEwB1WxM8J6taWQwoA1MN7Y=";
+    hash = "sha256-6VfoT8Rw2c46ugSpW1IHJPSHTWnphNn0MG1XDhrPeBg=";
   };
 
-  pnpmDeps = pnpm_10.fetchDeps {
+  pnpmDeps = fetchPnpmDeps {
     inherit (finalAttrs) pname version src;
-    fetcherVersion = 2;
-    hash = "sha256-pBF4usm5Gd+sygf2uZAovpGnEFlywVg2KToMiUSfyZI=";
+    pnpm = pnpm_10;
+    fetcherVersion = 3;
+    hash = "sha256-wSKxoxWys3gf++yTDr/XBadW9bq/w/NKPGUZpbAPe+I=";
   };
 
   nativeBuildInputs = [
-    pnpm_10.configHook
+    pnpmConfigHook
+    pnpm_10
     python3 # required to build sqlite3 bindings
     node-gyp # required to build sqlite3 bindings
     makeWrapper
@@ -113,6 +116,7 @@ stdenv.mkDerivation (finalAttrs: {
     maintainers = with lib.maintainers; [
       gepbird
       AdrienLemaire
+      sweenu
     ];
     license = lib.licenses.sustainableUse;
     mainProgram = "n8n";

@@ -15,7 +15,7 @@
 
 buildPythonPackage rec {
   pname = "wordcloud";
-  version = "1.9.4";
+  version = "1.9.5";
 
   pyproject = true;
 
@@ -28,7 +28,7 @@ buildPythonPackage rec {
 
   src = fetchPypi {
     inherit pname version;
-    hash = "sha256-snPYpd7ZfT6tkEBGtJRk3LcRGe5534dQcqTBBcrdNHo=";
+    hash = "sha256-asfBN48ohtfoSWAKMG/r1B0NRrFc6HbWZaPlSfVAOws=";
   };
 
   nativeBuildInputs = [ cython ];
@@ -58,12 +58,12 @@ buildPythonPackage rec {
     "test_coloring_black_works"
   ];
 
-  meta = with lib; {
+  meta = {
     description = "Word cloud generator in Python";
     mainProgram = "wordcloud_cli";
     homepage = "https://github.com/amueller/word_cloud";
     changelog = "https://github.com/amueller/word_cloud/releases/tag/${version}";
-    license = licenses.mit;
-    maintainers = with maintainers; [ jm2dev ];
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [ jm2dev ];
   };
 }
