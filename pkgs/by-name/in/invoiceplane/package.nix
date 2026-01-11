@@ -10,6 +10,7 @@
   yarnInstallHook,
   nodePackages,
   fetchzip,
+  grunt-cli,
 }:
 let
   version = "1.7.0-beta-1";
@@ -39,7 +40,7 @@ php.buildComposerProject2 (finalAttrs: {
     yarnBuildHook
     yarnInstallHook
     # Needed for executing package.json scripts
-    nodePackages.grunt-cli
+    grunt-cli
   ];
 
   offlineCache = fetchYarnDeps {
