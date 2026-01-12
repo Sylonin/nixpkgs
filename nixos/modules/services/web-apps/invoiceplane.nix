@@ -18,7 +18,7 @@ let
     pkgs.writeText "ipconfig.php" ''
       # <?php exit('No direct script access allowed'); ?>
 
-      IP_URL=http://${hostName}
+      IP_URL=https://${hostName}
       ENABLE_DEBUG=false
       DISABLE_SETUP=false
       REMOVE_INDEXPHP=false
@@ -428,7 +428,7 @@ in
             serviceConfig = {
               Type = "oneshot";
               User = user;
-              ExecStart = "${pkgs.curl}/bin/curl --header 'Host: ${hostName}' http://localhost/invoices/cron/recur/${cfg.cron.key}";
+              ExecStart = "${pkgs.curl}/bin/curl --header 'Host: ${hostName}' https://localhost/invoices/cron/recur/${cfg.cron.key}";
             };
           }
         ))
