@@ -7,19 +7,21 @@
   wrapGAppsHook3,
   glew,
   gtk3,
-  xorg,
+  libxrandr,
+  libxi,
+  libxcursor,
   nix-update-script,
 }:
 
 buildDotnetModule rec {
   pname = "libation";
-  version = "13.1.1";
+  version = "13.1.3";
 
   src = fetchFromGitHub {
     owner = "rmcrackan";
     repo = "Libation";
     tag = "v${version}";
-    hash = "sha256-c/K8jAWwul0FQGYxEbuhQnqXe5+R57TzOXwWUv68M1Q=";
+    hash = "sha256-gK0UZ+3EZGVEiy+O47GhU4wsHmdPIbrHWyHnUOtWrm8=";
   };
 
   sourceRoot = "${src.name}/Source";
@@ -47,9 +49,9 @@ buildDotnetModule rec {
   runtimeDeps = [
     # For Avalonia UI
     glew
-    xorg.libXrandr
-    xorg.libXi
-    xorg.libXcursor
+    libxrandr
+    libxi
+    libxcursor
     # For file dialogs
     gtk3
   ];
