@@ -18,7 +18,7 @@ let
     pkgs.writeText "ipconfig.php" ''
       # <?php exit('No direct script access allowed'); ?>
 
-      IP_URL=http://${hostName}
+      IP_URL=https://${hostName}
       ENABLE_DEBUG=false
       DISABLE_SETUP=false
       REMOVE_INDEXPHP=false
@@ -428,7 +428,7 @@ in
             serviceConfig = {
               Type = "oneshot";
               User = user;
-              ExecStart = "${pkgs.curl}/bin/curl --header 'Host: ${hostName}' http://localhost/invoices/cron/recur/${cfg.cron.key}";
+              ExecStart = "${pkgs.curl}/bin/curl --header 'Host: ${hostName}' https://localhost/invoices/cron/recur/${cfg.cron.key}";
             };
           }
         ))
@@ -441,7 +441,7 @@ in
         enable = true;
         virtualHosts = mapAttrs' (
           hostName: cfg:
-          (nameValuePair "http://${hostName}" {
+          (nameValuePair "https://${hostName}" {
             extraConfig = ''
               root * ${pkg hostName cfg}
               file_server
@@ -469,7 +469,7 @@ in
 
             locations = {
               "/setup".extraConfig = ''
-                rewrite ^(.*)$ http://${hostName}/ redirect;
+                rewrite ^(.*)$ https://${hostName}/ redirect;
               '';
 
               "~ .php$" = {
