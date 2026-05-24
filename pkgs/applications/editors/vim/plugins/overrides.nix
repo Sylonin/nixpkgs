@@ -3044,6 +3044,13 @@ assertNoAdditions {
     dependencies = [ self.nvim-dap ];
   };
 
+  nvim-dap-disasm = super.nvim-dap-disasm.overrideAttrs (old: {
+    dependencies = [ self.nvim-dap ];
+    meta = old.meta // {
+      license = lib.licenses.mit;
+    };
+  });
+
   nvim-dap-lldb = super.nvim-dap-lldb.overrideAttrs {
     dependencies = [ self.nvim-dap ];
   };
@@ -3284,12 +3291,6 @@ assertNoAdditions {
       self.fzf-lua
     ];
   };
-
-  nvim-sioyek-highlights = super.nvim-sioyek-highlights.overrideAttrs (old: {
-    meta = old.meta // {
-      license = lib.licenses.mit;
-    };
-  });
 
   nvim-snippets = super.nvim-snippets.overrideAttrs {
     checkInputs = [
